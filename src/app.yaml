@@ -1,0 +1,64 @@
+application: multi-tools
+version: 3
+runtime: python27
+api_version: 1
+threadsafe: true
+
+libraries:
+- name: django
+  version: "1.2"
+
+handlers:
+- url: /cache.manifest
+  mime_type: text/cache-manifest
+  static_files: cache.manifest
+  upload: cache.manifest 
+
+- url: /web/stylesheets
+  static_dir: web/stylesheets
+
+- url: /web/stylesheets/images
+  static_dir: web/stylesheets/images
+
+- url: /web/js
+  static_dir: web/js
+
+- url: /web/images
+  static_dir: web/images
+
+- url: /admin/.*
+  script: app_admin.app
+  login: admin
+
+- url: /app/timesheet/.*
+  script: timesheet_app.app
+  login: required
+
+- url: /app/booking_admin/.*
+  script: booking_admin_app.app
+  login: required
+
+- url: /app/booking/.*
+  script: booking_app.app
+
+- url: /app/impairment/.*
+  script: impairment_app.app
+
+- url: /app/tremor/.*
+  script: tremor_app.app
+
+- url: /app/rank/.*
+  script: rank_app.app
+  login: required
+
+- url: /app/team-manage/.*
+  script: team_manage_app.app
+  login: required
+
+- url: /secure/.*
+  script: appl_secure.app
+  login: required
+
+- url: /.*
+  script: appl.app
+  

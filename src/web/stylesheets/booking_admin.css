@@ -1,0 +1,59 @@
+body {
+  overflow-y:scroll;
+  margin:20;
+  padding:20;
+  font-family:Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size:13px;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover:not(.active) {
+    background-color: #111;
+}
+
+.active {
+    background-color: #4CAF50;
+}
+
+#standard_header{
+  font-family:Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color:#408000;
+  margin:5px;
+  padding:5px;	
+}
+
+#content{
+  margin:5px;
+  padding:5px;	
+}
+
+#top_entry {
+  height: 120px;
+}
+
+a img {
+ border: none;
+}
+
+.bold {
+	font-weight:bold;
+}

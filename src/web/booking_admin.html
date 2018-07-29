@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"> 
+<head> 
+	<title>Booking Admin</title>
+	<meta charset="utf-8">
+	<link rel="shortcut icon" href="/web/images/bk/favicon.ico">
+	<link rel="apple-touch-icon" href="/web/images/bk/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/web/images/bk/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="/web/images/bk/apple-touch-icon-114x114.png">	
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+  	<!-- JQuery -->
+	<script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>	 
+  	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js"></script>
+	<!-- Booking Admin -->		
+	<script type="text/javascript" src="/web/js/booking.js"></script>			
+	<link rel="stylesheet" href="/web/stylesheets/booking_admin.css" />
+</head> 
+<body> 
+	<ul>
+	  <li><a class="active" href="#" id="basic_nav" onclick="swapTo('basic');">Basic</a></li>
+	  <li><a href="#" id="manage_nav" onclick="swapTo('manage');">Manage</a></li>
+	</ul>
+
+	<div id="basic">
+		<table>
+			<tr>
+				<td>Site Name</td>
+				<td><input class="std_input" type="text" name="site_name" id="site_name" value="{{data.site_name}}"/></td>
+			</tr>
+			<tr>
+				<td>First name</td>
+				<td><input class="std_input" type="text" name="first_name" id="first_name" value="{{data.first_name}}"/></td>
+			</tr>
+			<tr>
+				<td>Last name:</td>
+				<td><input class="std_input" type="text" name="last_name" id="last_name" value="{{data.last_name}}"/></td>
+			</tr>
+			<tr>
+				<td>Phone:</td>
+				<td><input class="std_input" type="text" name="phone" id="phone" value="{{data.phone}}"/></td>
+			</tr>
+			<tr>
+				<td>Friendly url:</td>
+				<td><input class="std_input" type="text" name="friendly_url" id="friendly_url" value="{{data.friendly_url}}"/></td>
+			</tr>			
+			<tr>
+				<td>eMail subject</td>
+				<td><input class="std_input" type="text" name="mail_subject" id="mail_subject" value="{{data.mail_subject}}"/></td>
+			</tr>
+			<tr>
+				<td>eMail template</td>
+				<td><textarea class="input_box" name="mail_template" id="mail_template">{{data.mail_template}}</textarea></td>
+			</tr>			
+		</table>
+		<input type="button" onclick="postWeb('post admin')" value="Save">
+	</div>
+	
+	<div id="manage">
+		<h3>Search bookings</h3>
+		<table>
+			<tr><th>Start</th><th>End</th><th></th></tr>
+			<tr>
+				<td><input type="text" size="10" name="start_date" id="start_date" value=""/></td>
+				<td><input type="text" size="10" name="end_date" id="end_date" value=""/></td>
+				<td><input type='button' onclick="postWeb('search bookings');" value='search'></td>
+			</tr>
+		</table>
+		<table id='admin_search'>
+			<tr><th>Date</th><th>Start</th><th>End</th><th>First</th><th>Last</th><th>email</th><th>phone</th><th>status</th><th>Comments</th></tr>
+		</table>				
+		<h3>Add Bookings</h3>
+		<textarea class="input_box" name="time_slots_entry" id="time_slots_entry"></textarea>
+		<input type="button" onclick="postWeb('add slots')" value="add timeslots">
+	</div>
+<!-- Start of main page -->
+<script>
+swapTo ("basic");
+formatDateFieldPicker("start_date");
+formatDateFieldPicker("end_date");
+</script>
+
+</body>
+</html>

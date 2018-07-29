@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block css_libraries %}
+<link type="text/css" href="/web/stylesheets/ui-lightness/jquery-ui-1.8.16.custom.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="/web/stylesheets/jquery.tablescroll.css"/>
+{% endblock %}
+{% block js_libraries %}
+<script type="text/javascript" src="/web/js/jquery-ui-1.8.16.custom.min.js"></script>
+<script type="text/javascript" src="/web/js/jquery.tablescroll.js"></script>
+<script type="text/javascript" src="/web/js/rank.js"></script>
+{% endblock %}
+{% block title %}Ranking{% endblock %}
+{% block content %}
+<input type='button' value='boo' onclick="updatePersonField('Save name', 'name');">
+<div id="field-dialog-form" title="">
+	<form>
+		<input name="update_field" id="update_field" class="text ui-widget-content ui-corner-all">
+	</form>
+</div>
+{% endblock %}
+
+{% block additional_js %}
+<script language='JavaScript'>
+	fetchPerson(function(){
+		//any data filling that is required
+	});	
+</script>
+{% endblock %}

@@ -1,0 +1,95 @@
+<!DOCTYPE html> 
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head> 
+	<title>Booking Admin</title>
+	<meta charset="utf-8">
+	<link rel="shortcut icon" href="/web/images/bk/favicon.ico">
+	<link rel="apple-touch-icon" href="/web/images/bk/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/web/images/bk/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="/web/images/bk/apple-touch-icon-114x114.png">	
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.print.css" media='print' /> 	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.js"></script>
+	<script src="/web/js/booking.js"></script>
+
+</head> 
+<body>  
+	<!-- <h3><div id="site_name">No site selected</div></h3> -->
+	<h3>{{data.site_name}}</h3>
+	<div id="calendar"></div>
+	<div id="booking">
+		<form>
+  			<h3>Request booking</h3>
+			<div id="booking_date">
+				<label for="name">Date:</label>
+				<div id='date'></div>
+			</div>
+			<div id="booking_time">
+				<label for="name">Time:</label>
+				<div id='time'></div>
+			</div>			  			
+			<div id="booking_first_name">
+				<label for="name">First name:</label>
+				<input class="std_input" type="text" name="first_name" id="first_name"/>
+			</div>
+			<div id="booking_last_name">
+				<label for="name">Last name:</label>
+				<input class="std_input" type="text" name="last_name" id="last_name"/>
+			</div>
+			<div id="booking_phone">
+				<label for="name">Phone:</label>
+				<input class="std_input" type="tel" name="phone" id="phone">
+			</div>
+			<div id="">
+				<label for="name">Email:</label>
+				<input class="std_input" type="email" name="email" id="email">	
+			</div>
+		</form>	
+		<a href='#' onclick='saveBooking()'>Save</a><br />
+		<a href='#' onclick='swapTo("calendar");'>Cancel</a><br />
+	</div>
+</body>
+<script>
+$(function() {
+	//postWeb('get bookings');
+	//https://fullcalendar.io/
+	c_url = window.location.pathname.split('/app/booking/')[1];
+	c_start_date = dateFormat((new Date()).getTime());
+	$('#calendar').fullCalendar({
+		eventClick: function(eventObj) {
+			loadBooking(eventObj);
+		},
+		header: {
+		    left: 'prev,next today',
+		    center: 'title',
+		    right: 'listDay,listWeek,month'
+		  },
+		// customize the button names,
+		// otherwise they'd all just say "list"
+		views: {
+		  listDay: { buttonText: 'list day' },
+		  listWeek: { buttonText: 'list week' }
+		},
+		defaultView: 'listWeek',
+		events: {
+		    url: '/app/booking/get_bookings',
+		    type: 'POST',
+		    data: {
+		      url: c_url,
+		    },
+		    error: function() {
+		      alert('there was an error while fetching events!');
+		    },
+		    color: 'green',   // a non-ajax option
+		    textColor: 'black' // a non-ajax option
+		  }
+	        
+    })
+});
+
+</script>
+</html>

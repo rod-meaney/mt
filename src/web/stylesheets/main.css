@@ -1,0 +1,31 @@
+body {
+  overflow-y:scroll;
+  margin:0;
+  padding:0;
+  font-family:Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size:13px;
+}
+
+#standard_header{
+  font-family:Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color:#408000;
+  margin:5px;
+  padding:5px;	
+}
+
+#content{
+  margin:5px;
+  padding:5px;	
+}
+
+#top_entry {
+  height: 120px;
+}
+
+a img {
+ border: none;
+}
+
+.bold {
+	font-weight:bold;
+}

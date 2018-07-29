@@ -1,0 +1,70 @@
+{% extends "base_mob.html" %}
+{% block js_libraries %}
+<script type="text/javascript" src="/web/js/timesheet.js"></script>
+{% endblock %}
+{% block title %}Timesheet Mob{% endblock %}
+{% block content %}
+<table><tr><td>
+	<label for="pre_defined">Pre-defined tasks</label>
+	<br />
+	<select class="std_input" name='pre_defined' id='pre_defined' onchange="$('#task').val(($('#pre_defined').val()));">
+	{% for task in task_list %}
+		<option>{{task}}</option>
+	{% endfor %}
+	</select>
+	<br />	
+	<label for="task">Task</label>
+	<br />
+	<input class="std_input" type="text" name="task" id="task" value=""/>
+	<br />
+	<label for="hour">Hours</label>
+	<br />
+	<select class="std_input" name='hour' id='hour'>
+		<option>0</option>
+		<option>1</option>
+		<option>2</option>
+		<option>3</option>
+		<option>4</option>
+		<option>5</option>
+		<option>6</option>
+		<option>7</option>
+		<option>8</option>
+	</select>
+	<br />
+	<label for="min">Min</label>
+	<br />	
+	<select class="std_input" name='min' id='min'>
+		<option>0</option>
+		<option>5</option>
+		<option>10</option>
+		<option>15</option>
+		<option>20</option>
+		<option>25</option>
+		<option>30</option>
+		<option>35</option>
+		<option>40</option>
+		<option>45</option>
+		<option>50</option>
+		<option>55</option>
+	</select>	
+	<br />
+	<div>
+	<input type='button' onclick="saveWebPage('/app/timesheet/save', 'timesheet entry')" value='add'>
+</td></tr></table>	
+<table>
+	<thead>
+		<td><b>time</b></td><td><b>action</b></td>
+	</thead>
+	<tbody id='recent_actions'></tbody>
+</table>
+<input class="std_input" type="text" name="date" id="date" value=""/>
+{% endblock %}
+
+{% block additional_js %}
+<script language='JavaScript'>
+	g_is_mobile=true;
+	$('#date').hide();
+	$('#date').val(todayF());
+	$('#pre_defined').focus();
+</script>
+{% endblock %}

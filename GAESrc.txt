@@ -1,0 +1,3 @@
+work - C:\Program Files (x86)\Google\Cloud SDK\google-cloud-sdk\platform\google_appengine
+home1 - /work/google-cloud-sdk/platform/google_appengine
+home2 - /Users/rodmeaney/google-cloud-sdk/platform/google_appengine

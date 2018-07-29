@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block js_libraries %}
+<script type="text/javascript" src="/web/js/admin.js"></script>
+{% endblock %}	
+{% block title %}Edit mail template{% endblock %}
+{% block content %}
+<table class="edit_table">
+	<tr>
+		<td class="left">key</td>
+		<td><input class="std_input" type="text" name="mail_key" id="mail_key" value="{{data.mail_key}}"/></td>
+	</tr>	
+	<tr>
+		<td class="left">description</td>
+		<td><textarea class="input_box" name="description" id="description">{{data.description}}</textarea></td>
+	</tr>
+	<tr>
+		<td class="left">subject</td>
+		<td><input class="std_input" type="text" name="subject" id="subject" value="{{data.subject}}"/></td>
+	</tr>
+	<tr>
+		<td class="left">from</td>
+		<td><input class="std_input" type="text" name="from_email" id="from_email" value="{{data.from_email}}"/></td>
+	</tr>
+	<tr>
+		<td class="left">to</td>
+		<td><input class="std_input" type="text" name="to_email" id="to_email" value="{{data.to_email}}"/></td>
+	</tr>
+	<tr>
+		<td class="left">body</td>
+		<td><textarea class="input_box" name="body" id="body">{{data.body}}</textarea></td>
+	</tr>
+	<tr>
+		<td>
+			<a href="#" onclick="save();">save</a>
+		</td>
+		<td>
+			<div id="response"></id>
+		</td>
+	</tr>			
+</table>	
+{% endblock %}
+{% block model %}MailTemplate{% endblock %}
+{% block additional_js %}
+	<script>
+	function save() {
+		saveAdmin("/admin/mt/save", "mt");
+	}
+	</script>
+	{% if data.is_saved %}
+	<script>var object_key="{{data.key}}"</script>
+	{% else %}
+	<script>var object_key=""</script>
+	{% endif %}	
+{% endblock %}

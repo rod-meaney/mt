@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}All mail templates{% endblock %}
+{% block heading %}List of all mail templates{% endblock %}
+{% block content %}
+		<table class="list_table">
+			<tr><th>key</th><th>subject</th><th>from email</th><th>to email</th></tr>
+			{% for row in data %}
+			{% if forloop.counter|divisibleby:2 %}
+			<tr>
+			{% else %}
+			<tr class="alt">
+			{% endif %}
+				<td><a href="/admin/mt/{{row.key}}">{{row.mail_key}}</a></td>
+				<td>{{row.subject}}</td>
+				<td>{{row.from_email}}</td>
+				<td>{{row.to_email}}</td>
+			</tr>
+	    	{% endfor %}
+		</table>
+		<a href="mt/new">new</a>
+{% endblock %}

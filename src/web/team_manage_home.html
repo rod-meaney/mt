@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block css_libraries %}
+<link type="text/css" href="/web/stylesheets/ui-lightness/jquery-ui-1.8.18.custom.css" rel="stylesheet" />
+{% endblock %}
+{% block js_libraries %}
+<script type="text/javascript" src="/web/js/jquery-ui-1.8.18.custom.min.js"></script>
+<script type="text/javascript" src="/web/js/gen.js"></script>
+<script type="text/javascript" src="/web/js/team-manage.js"></script>
+{% endblock %}
+{% block title %}Team management{% endblock %}
+{% block content %}
+<div id="tabs">
+	<ul>
+		<li><a href="#tabs-1">Team management</a></li>
+		<li><a href="#tabs-2">Season management</a></li>
+		<li><a href="#tabs-3">Match management</a></li>
+		<li><a href="#tabs-4">Bulk load</a></li>
+		<li><a href="#tabs-5">Options</a></li>
+	</ul>
+	<div id="tabs-1">
+		Manage the members of a team		
+	</div>
+	<div id="tabs-2">
+		<p>Manage the teams matches for a season</p>
+	</div>
+	<div id="tabs-3">
+		<p>Manage the teams matches for a week</p>
+	</div>
+	<div id="tabs-4">
+		<p>Bulk load of season and match information</p>
+	</div>
+	<div id="tabs-5">
+	<p>
+		Options such as
+		
+	</p>
+	</div>
+</div>
+{% endblock %}
+
+{% block additional_js %}
+<script language='JavaScript'>
+	$( "#tabs" ).tabs();
+	fetchPerson(function(){
+		//any data filling that is required
+	});	
+</script>
+{% endblock %}

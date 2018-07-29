@@ -1,0 +1,32 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<link type="text/css" rel="stylesheet" href="/web/stylesheets/main.css" />
+		{% block css_libraries %}{% endblock %}		
+		<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+		<script type="text/javascript" src="/web/js/blockUI.js"></script>
+		<script type="text/javascript" src="/web/js/gen.js"></script>		
+		{% block js_libraries %}{% endblock %}	
+		<title>{% block title %}Google play{% endblock %}</title>
+	</head>
+	<body>
+		<div id="standard_header">
+			<!--<a href='/admin/mt'>templates</a>-->
+			<table width='100%'>
+				<tr>
+					<td>
+						{% for row in menu %}
+						<a class='menu_item' href='{{row.url}}'>{{row.name}}</a>  
+						{% endfor %}						
+					</td>
+					<td align='right'>{{username}}</td>
+				</tr>
+			</table>
+		</div>
+		<div id="content">
+			{% block heading %}{% endblock %}
+			{% block content %}{% endblock %}
+		</div>
+	</body>
+	{% block additional_js %}{% endblock %}
+</html>

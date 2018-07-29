@@ -1,0 +1,143 @@
+<!DOCTYPE html> 
+<html manifest="/cache.manifest"> 
+<head> 
+	<title>Impairment tool</title>
+	<meta charset="utf-8">
+	<link rel="shortcut icon" href="/web/images/wc/favicon.ico">
+	<link rel="apple-touch-icon" href="/web/images/wc/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/web/images/wc/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="/web/images/wc/apple-touch-icon-114x114.png">	
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
+	<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+</head> 
+<body> 
+
+<!-- Start of main page -->
+<div data-role="page" id="buy" data-theme="b">
+ <!--
+    <div data-role="header">
+        <h1>Impairment calculator</h1>
+    </div>
+-->
+    <div data-role="content">
+    	<b><div id="result"></div></b>
+		<fieldset class="ui-grid-a">
+		    <div class="ui-block-a">
+		            <input type="tel" name="item_add" id="entry" size="2" maxlength="2"  onkeyup="check_entry();" value=""/>
+		    </div>
+		    <div class="ui-block-b">
+		            <a href="javascript:void(0)" data-role="button" onclick="clear_list();" data-theme="a">Clear</a>
+		    </div>
+		</fieldset>
+		<ul id="percent_list" data-inset="true" data-role="listview" data-split-icon="delete" data-theme="c">
+		</ul>		
+		Created by: <a href='http://www.linkedin.com/pub/rod-meaney/2/ab4/85b' target='_blank'>Rod Meaney</a><br />
+		Try the <a href ='/app/tremor/' target='_blank'>Tremor App</a>
+				  	
+    </div><!-- /content -->
+
+</div><!-- /page main -->
+
+<!-- Start of popup page -->
+<div data-role="page" id="popup">
+ 
+    <div data-role="header" data-theme="e">
+        <h1>Error</h1>
+    </div><!-- /header -->
+ 
+    <div data-role="content" data-theme="d">
+    	<div id="p_mes"></div>
+    </div><!-- /content -->
+
+</div><!-- /page popup -->
+
+	<script>
+	    Array.prototype.indexOf = function(obj){
+	        for(var i=0; i<this.length; i++){if(this[i]==obj){return i;}}
+	        return -1;
+	    }
+		Array.prototype.removeObj = function(obj){
+			var i=this.indexOf(parseInt(obj));
+			if (this.indexOf(obj)>-1){this.splice(i,1);}
+		}
+				
+		var temp_percent = ""; /* temp is temp */ 
+		var percents = [];
+		var dis_string="";
+		function check_entry() {
+			if ($("#entry").val().length==2){
+				var new_val = parseInt($("#entry").val(), 10);	
+				if (isNaN(new_val)){
+					writeError('Please enter a number!');
+					$("#entry").val("");
+				} else {
+					compute();	
+				}				
+			}			
+		}
+		function clear_list() {
+			percents=[];
+			$("#result").html(generate_list());
+			$("#entry").focus();
+		}
+		function del_entry(del_value){
+			percents.removeObj(del_value);
+			$("#result").html(generate_list());
+			$("#entry").focus();
+		}
+		function compute(){
+			percents.push($("#entry").val());
+			$("#result").html(generate_list());
+			$("#entry").val("");		
+		}
+		function generate_list(){
+			var total=0; /* here */
+			var remainder=100; /* here */
+			$("#percent_list").empty();
+			$.each(percents, function(index, value){
+				remainder = (100-total);
+				total = total + remainder*(parseInt(value,10)/100); /* here */
+				list_item="<li><a href=\"javascript:void(0)\"><h3>"+value
+						+"% of "+Math.round(remainder*100)/100+"%</h3></a><a href=\"javascript:void(0)\" onclick=\"del_entry("
+						+value+")\">delete</a></li>";
+				$('#percent_list').append(list_item);
+			});
+			$('#percent_list').listview('refresh');
+			return Math.round(total)+"% impairment (2DP "+ Math.round(total*100)/100 + "%)";
+		}
+		function writeError(error) {
+			document.getElementById('p_mes').innerHTML=error;
+			$.mobile.changePage( "#popup", { transition: "pop" , role: "dialog" } );
+		}
+		/* refocus into texxt entry */
+		$('#popup').live('pagehide',function(event) {
+        	$("#entry").focus();
+      	});
+				
+		$(window).load(function () { $("#entry").focus();});
+		$("#result").html(generate_list());
+		// Check if a new cache is available on page load.
+		window.addEventListener('load', function(e) {
+		
+		  window.applicationCache.addEventListener('updateready', function(e) {
+		    if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
+		      // Browser downloaded a new app cache.
+		      // Swap it in and reload the page to get the new hotness.
+		      window.applicationCache.swapCache();
+		      if (confirm('A new version of this site is available. Load it?')) {
+		        window.location.reload();
+		      }
+		    } else {
+		      // Manifest didn't changed. Nothing new to server.
+		    }
+		  }, false);
+		
+		}, false);		
+		
+		
+	</script>
+
+</body>
+</html>

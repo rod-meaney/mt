@@ -1,0 +1,20 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="/web/stylesheets/mob.css" type="text/css" />
+		{% block css_libraries %}{% endblock %}		
+		<script src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
+		<script type="text/javascript" src="/web/js/blockUI.js"></script>		
+		<script type="text/javascript" src="/web/js/gen.js"></script>		
+		{% block js_libraries %}{% endblock %}	
+		<title>{% block title %}Google play{% endblock %}</title>
+	</head>
+	<body>
+		<div id="content">
+			{% block heading %}{% endblock %}
+			{% block content %}{% endblock %}
+		</div>
+	</body>
+	{% block additional_js %}{% endblock %}
+</html>

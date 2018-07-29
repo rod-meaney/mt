@@ -1,0 +1,189 @@
+{% extends "base.html" %}
+{% block css_libraries %}
+<link type="text/css" href="/web/stylesheets/ui-lightness/jquery-ui-1.8.18.custom.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="/web/stylesheets/jquery.tablescroll.css"/>
+<link rel="shortcut icon" href="/web/images/favicon.ico">
+<link rel="apple-touch-icon" href="/web/images/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/web/images/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/web/images/apple-touch-icon-114x114.png">
+{% endblock %}
+{% block js_libraries %}
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript" src="/web/js/jquery-ui-1.8.18.custom.min.js"></script>
+<script type="text/javascript" src="/web/js/jquery.tablescroll.js"></script>
+<script type="text/javascript" src="/web/js/timesheet.js"></script>
+{% endblock %}
+{% block title %}Time sheet logging{% endblock %}
+{% block content %}
+
+<div id='top_entry'>
+<fieldset>
+<legend id='input_total'>Input</legend>	
+	<table>
+		<tr><th>Task <input type='button' onclick="updatePersonList('saved tasks', 'timesheet_tasks', 'task');" value='edit standard tasks'></th><th>Time</th><th>Date</th></tr>
+		<tr>
+			<td><input class="std_input" type="text" name="task" id="task" size='50' value=""/></td>
+			<td>
+				<select class="std_input" name='hour' id='hour'>
+					<option>0</option>
+					<option>1</option>
+					<option>2</option>
+					<option>3</option>
+					<option>4</option>
+					<option>5</option>
+					<option>6</option>
+					<option>7</option>
+					<option>8</option>
+				</select> hours 
+				<select class="std_input" name='min' id='min'>
+					<option>0</option>
+					<option>5</option>
+					<option>10</option>
+					<option>15</option>
+					<option>20</option>
+					<option>25</option>
+					<option>30</option>
+					<option>35</option>
+					<option>40</option>
+					<option>45</option>
+					<option>50</option>
+					<option>55</option>
+				</select> minutes 		
+			</td>
+			<td><input class="std_input" type="text" name="date" id="date" value=""/></td>
+		</tr>
+	</table>
+	<input type='checkbox' id='add_std'>Add to list of standard tasks <input type='button' onclick="saveWebPage('/app/timesheet/save', 'timesheet entry')" value='add'>
+</fieldset>
+</div>
+<p />
+<fieldset>
+<legend id ='search_legend'>Search results</legend>
+<div id='listing'>
+	<table>
+		<tr><th>Default</th><th>Start</th><th>End</th><th></th></tr>
+		<tr>
+			<td>
+				<select class="std_input" name='def_search' id='def_search' onchange='changeSearchDates()'>
+					<option>-</option>
+					<option>today</option>
+					<option>yesterday</option>
+					<option>last week</option>
+					<option>last month</option>
+				</select> 
+			</td>
+			<td><input type="text" size="10" name="start_date" id="start_date" value=""/></td>
+			<td><input type="text" size="10" name="end_date" id="end_date" value=""/></td>
+			<td><input type='button' onclick="loadTimeSheets();" value='search'></td>
+		</tr>
+	</table>	
+	<table>
+		<tr>
+			<td valign='top'>
+				<table id="tt" cellspacing=0px>
+					<thead id="tth"></thead>
+					<tbody id="ttb"></tbody>
+					<tfoot id="ttf"></tfoot>		
+				</table>				
+			</td>
+			<td valign='top'>
+				<div id="chart" style="width: 600px; height: 300px;"></div>			
+			</td>
+		</tr>
+	</table>
+	<p />
+	<table>
+		<tr>
+			<td><input type='button' onclick="deleteSelected('tt', '/app/timesheet/delete', function(){loadTimeSheets();});" value='delete'></td>
+			<td>deletes the selected rows above and re-displays search based on search criteria.</td>
+		</tr>
+		<tr>
+			<td><input type='button' onclick="editSelectedRow();" value='edit'></td>
+			<td>edits the selected line.  Double click on line to edit also.</td>
+		</tr>		
+		<tr>
+			<td><input type='button' onclick="exportCSV('tasks');" value='csv list'></td>
+			<td>Exports a csv listing on the date search criteria above</td>
+		</tr>
+		<tr>
+			<td><input type='button' onclick="exportCSV('days');" value='csv grid'></td>
+			<td>
+				Exports a calendar view of the date seach criteria above<br />
+				<input type='checkbox' id='summarise_hyphen'>Group similar tasks (identical left of hyphen)
+			</td>
+		</tr>
+		<tr>
+			<td><input type='button' onclick="showBulkChange();" value='bulk change'></td>
+			<td>
+				<input id='bulk_change_from' /> to
+				<input id='bulk_change_to' /> <div id='bulk_change_apply'><input type='button' onclick="applyBulkChange();" value='apply'></div>
+			</td>
+		</tr>	
+		<tr>
+			<td><a href='/app/timesheet/mob' target='_blank'>mobile site</a></td>
+			<td>Launches the mobile site which is can be used on portable devices for quick convenient data entry</td>
+		</tr>
+	</table>
+</div>
+</fieldset>
+<p />
+<fieldset>
+	<legend>Session actions</legend>
+	<div id="response">
+		<table>
+			<thead>
+				<td><b>time</b></td><td><b>action</b></td>
+			</thead>
+			<tbody id='recent_actions'></tbody>
+		</table>
+	</div>
+</fieldset>
+<div id="list-dialog-form" title="">
+	<form>
+		<textarea cols=40 rows=15 name="update_list" id="update_list" class="text ui-widget-content ui-corner-all" ></textarea>
+	</form>
+</div>
+
+{% endblock %}
+
+{% block additional_js %}
+<script language='JavaScript'>
+	$('#chart').hide(); //hide the chart on load of page
+	$('#bulk_change_apply').hide(); //hide the chart on load of page
+	google.load("visualization", "1", {packages:["corechart"]}); //load visualisation google stuff
+	$('#task').focus(); //always focus on entering new timesheet
+	//Load datepickers
+	var date_fields = ['date', 'start_date', 'end_date'];
+	for (i=0; i<date_fields.length; i++){
+		formatDateFieldPicker(date_fields[i]);	
+	}
+	//Build search table
+	var sorting = new sort_table(ts_search); 
+	$('#tt').tableScroll({height:150, width:500});
+	$('#tth').append(header());
+	$('#ttf').append(header());
+
+	//Get the current persons basic information
+	fetchPerson(function(){
+		$("#task").autocomplete({source: person.timesheet_tasks});
+		loadPersonList('timesheet_tasks');
+		$('#list-dialog-form').hide();
+	});
+	function header() {
+		//headers for the search and today tables
+		var t_header=	"<tr valign='top'>";
+		t_header+=   	"<td width='10%'></td><td width='20%'>date";
+		t_header+= 		" <a href=\"javascript:sorting.sort(1)\"><img src='/web/images/sort_number.png'></a>";
+		t_header+=   	"</td>";
+		t_header+=   	"<td width='55%'>task";
+		t_header+= 		" <a href=\"javascript:sorting.sort(2)\"><img src='/web/images/sort_alphabet.png'></a>";
+		t_header+=   	"</td>";
+		t_header+=   	"<td width='15%'>time";
+		t_header+= 		" <a href=\"javascript:sorting.sort(3)\"><img src='/web/images/sort_number.png'></a>";
+		t_header+=   	"</td>";
+		t_header+=   	"</tr>";
+		return t_header;
+	}
+		
+</script>
+{% endblock %}
